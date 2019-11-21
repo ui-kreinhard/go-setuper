@@ -1,0 +1,20 @@
+#!/bin/bash
+cp /home/pi/.config/chromium/Default/Preferences_template /home/pi/.config/chromium/Default/Preferences
+xmodmap -e "keycode 68 = Escape"
+xmodmap -e "keycode 69 = Escape"
+xmodmap -e "keycode 70 = Escape"
+xmodmap -e "keycode 71 = Escape"
+xmodmap -e "keycode 72 = Escape"
+xmodmap -e "keycode 73 = Escape"
+xmodmap -e "keycode 74 = Escape"
+xmodmap -e "keycode 75 = Escape"
+xmodmap -e "keycode 95 = Escape"
+xmodmap -e "keycode 96 = Escape"
+
+xmodmap -e "keycode 37 = "
+xmodmap -e "keycode 105 = "
+xmodmap -e "keycode 133 = "
+xmodmap -e "keycode 134 = "
+xmodmap -e "keycode 67 = Escape"
+
+chromium --disable-sync-preferences --kiosk --touch-events=enabled --disable-pinch --noerrdialogs --disable-session-crashed-bubble --app=$(head -n 1 /etc/url)
