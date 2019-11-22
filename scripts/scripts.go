@@ -1,7 +1,7 @@
 package scripts
 
 import (
-	"github.com/ui-kreinhard/go-setuperutils"
+	"github.com/ui-kreinhard/go-setuper/utils"
 )
 
 func ExecuteCmd(cmd string, params ...string) (string, error) {
