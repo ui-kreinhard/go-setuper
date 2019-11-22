@@ -22,7 +22,7 @@ func Copy(from string, dest string) error {
 }
 
 func CreateEmptyFile(filename string) error {
-	emptyFile, err := os.Create("empty.txt")
+	emptyFile, err := os.Create(filename)
 	if err != nil {
 		return err
 	}
