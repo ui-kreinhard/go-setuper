@@ -1,5 +1,5 @@
 # What's that? Why?
-Inspired from tools like puppet or ansible the idea is to give ops to model their systems with a simple API. The aim is, that you only one binary to your target system and execute it. All configuration files, templates, etc will be included in this binary(!). This should easen the pain with any runtime dependend things like python, shared c libraries 
+Inspired from tools like puppet or ansible the idea is to give ops to model their systems with a simple API. The aim is, that you copy only one binary to your target system and execute it. All configuration files, templates, etc will be included in this binary(!). This should easen the pain with any runtime dependend things like python, shared c libraries 
 
 Just "let it fall" on your target system
 
@@ -102,8 +102,10 @@ Execute the resulting binary on your target system
 * Delete group
 * Add user to group
 * Remove user from group
+## hostname
+* Set hostname on (debian) linux 
 
 Note that all modules can be very buggy. It worked on my maschine :)
 
 # Status
-Highly experimental - api will definetly change. Currently only tested with debian 10.2. No support/testing for other distributions like Centos or fedora currently planned. I don't like them - so you have to implement package 
+Highly experimental - api will definetly change. Currently only tested with debian 10.2. No support/testing for other distributions like Centos or fedora currently planned. I don't like them - so you have to implement yourself. 
