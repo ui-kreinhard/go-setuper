@@ -1,13 +1,11 @@
-What's that? Why?
-==========
+# What's that? Why?
 Inspired from tools like puppet or ansible the idea is to give ops to model their systems with a simple API. The aim is, that you only one binary to your target system and execute it. All configuration files, templates, etc will be included in this binary(!). This should easen the pain with any runtime dependend things like python, shared c libraries 
 
 Just "let it fall" on your target system
 
 NOTE: I'm still learning go - I think a lot of things could be expressed better. But I prefer a clean and simple style. 
 
-Usage
-==========
+# Usage
 First of all as a platform go is used. Go is ideal for the aim of this experiment. So you're gonna need the go toolsuite
 
 Because you're gonna embed all your configs, templates etc into your binary, you'll need packr2
@@ -21,24 +19,29 @@ This will install the packr2 binary.
 Now create following project(e.g. "my-setuper") structure:
 
 ```
-
+mkdir staticAssets
+mkdir staticAssets/file
+mkdir staticAssets/templates
+mkdir staticAssets/scripts
 ```
 
-Run `go get ` for basic infrastructure library of setuper
+Run `go get github.com/ui-kreinhard/go-setuper@master` for basic infrastructure library of setuper
 
 Create a file main.go
 ```
 package main
 
 import (
-	github.com/ui-kreinhard/go-setuperapt"
-	github.com/ui-kreinhard/go-setuperexecutor"
+	"github.com/ui-kreinhard/go-setuper/apt"
+	"github.com/ui-kreinhard/go-setuper/executor"
+	"github.com/ui-kreinhard/go-setuper/userGroups"
+	"github.com/ui-kreinhard/go-setuper/files"
 )
 
 func main() {
     executor.NewExecutor().
         Plan("Copy important file",
-			files.CopyDeferred("important", "/etc/important"))).
+			files.CopyDeferred("important", "/etc/important")).
 		Plan("Add user myuser",
 			userGroups.CreateUserWithoutPasswordDeferred("myuser")).
 		Plan("Ensure group autologin exists",
@@ -48,7 +51,7 @@ func main() {
 		Plan("Update Repo",
 			apt.CheckForUpdatesDeferred()).
         Run()
-}
+
 ```
 Create a file staticAssets/file/important
 ```
@@ -64,18 +67,38 @@ Run in your project
 
 Execute the resulting binary on your target system
 
-Current Modules
-====
-
-* apt
-* files
-* templates
-* scripts
-* systemd
-* userGroups
+# Current Module status
+## apt
+* Install package
+* Remove Package
+* Update Package list
+* Add Apt Keys
+## files
+* Copy files
+* Create empty file
+* Create symlink
+* Chmod
+* Chown
+## templates
+* Render template
+## scripts
+* Execute Cmd
+## systemd
+* Start
+* Stop
+* Restart
+* Enable
+* Daemon reload
+## userGroups
+* Add user without password
+* Add user with password 
+* Delete user
+* Add group
+* Delete group
+* Add user to group
+* Remove user from group
 
 Note that all modules can be very buggy. It worked on my maschine :)
 
-Status
-======
+# Status
 Highly experimental - api will definetly change. Currently only tested with debian 10.2. No support/testing for other distributions like Centos or fedora currently planned. I don't like them - so you have to implement package 
