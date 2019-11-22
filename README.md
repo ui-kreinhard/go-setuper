@@ -36,9 +36,13 @@ import (
 	"github.com/ui-kreinhard/go-setuper/executor"
 	"github.com/ui-kreinhard/go-setuper/userGroups"
 	"github.com/ui-kreinhard/go-setuper/files"
+	"github.com/ui-kreinhard/go-setuper/setuper"
 )
 
 func main() {
+    // needed so static files can be found
+	setuper.ConfigurePrefix("./staticAssets/")
+
     executor.NewExecutor().
         Plan("Copy important file",
 			files.CopyDeferred("important", "/etc/important")).
@@ -51,6 +55,7 @@ func main() {
 		Plan("Update Repo",
 			apt.CheckForUpdatesDeferred()).
         Run()
+}
 
 ```
 Create a file staticAssets/file/important

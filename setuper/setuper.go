@@ -15,7 +15,7 @@ type Setuper struct {
 }
 
 var setuper *Setuper
-var pathPrefix string
+var pathPrefix *string
 
 func printContent(box *packr.Box) {
 	for _, file := range box.List() {
@@ -32,6 +32,11 @@ func NewSetuper() *Setuper {
 			packr.New("scripts", "../staticAssets/scripts"),
 		}
 
+		if pathPrefix != nil {
+			setuper.TemplatesBox.ResolutionDir = *pathPrefix + "/templates/"
+			setuper.FilesBox.ResolutionDir = *pathPrefix + "/file/"
+			setuper.ScriptBox.ResolutionDir = *pathPrefix + "/scripts/"
+		}
 		printContent(setuper.FilesBox)
 		printContent(setuper.TemplatesBox)
 		printContent(setuper.ScriptBox)
@@ -42,6 +47,6 @@ func NewSetuper() *Setuper {
 }
 
 func ConfigurePrefix(prefix string) {
-	pathPrefix = prefix
+	pathPrefix = &prefix
 	NewSetuper()
 }
