@@ -1,4 +1,4 @@
-module github.com/ui-kreinhard/go-setuper/
+module github.com/ui-kreinhard/go-setuper
 
 go 1.13
 
