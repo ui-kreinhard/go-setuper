@@ -1,8 +1,9 @@
 package executor
 
 import (
-	"os"
+	"fmt"
 	"github.com/ui-kreinhard/go-setuper/log"
+	"os"
 	"time"
 )
 
@@ -13,6 +14,7 @@ type ToRun struct {
 
 type Executor struct {
 	functionsToRun []ToRun
+	name           string
 }
 
 type IExecutor interface {
@@ -58,6 +60,7 @@ func (e *Executor) Plan(nameOfTask string, deferred func() (string, error)) IExe
 }
 
 func (e *Executor) Run() {
+	log.Println("=============== Starting", e.name, "task ==============")
 	start := time.Now()
 
 	for _, toRunElement := range e.functionsToRun {
@@ -72,9 +75,10 @@ func (e *Executor) Run() {
 		}
 	}
 	duration := time.Since(start)
-	log.Println("took", duration)
+	log.Println("=============== Finished", e.name, "took", duration, "===============")
+	fmt.Println()
 }
 
-func NewExecutor(toRun ...ToRun) IExecutor {
-	return &Executor{toRun}
+func NewExecutor(name string) IExecutor {
+	return &Executor{name: name}
 }
