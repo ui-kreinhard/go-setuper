@@ -2,6 +2,7 @@ package files
 
 import (
 	"github.com/ui-kreinhard/go-setuper/setuper"
+	"github.com/ui-kreinhard/go-setuper/utils"
 	"io/ioutil"
 	"os"
 	"os/user"
@@ -14,7 +15,10 @@ func Copy(from string, dest string) error {
 	if err != nil {
 		return err
 	}
-	err = ioutil.WriteFile(dest, []byte(sourceContent), 0666)
+
+	destinationConstructed, err := utils.ConstructDestination(from, dest)
+
+	err = ioutil.WriteFile(destinationConstructed, []byte(sourceContent), 0666)
 	if err != nil {
 		return err
 	}
