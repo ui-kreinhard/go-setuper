@@ -2,3 +2,4 @@ go-setuper
 packrd/
 main.go
 staticAssets/*
+*-packr.go
