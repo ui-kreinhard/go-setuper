@@ -2,7 +2,8 @@ package apt
 
 import (
 	"github.com/ui-kreinhard/go-setuper/utils"
-	"github.com/arduino/go-apt-client"
+	// "github.com/arduino/go-apt-client"
+	"github.com/ui-kreinhard/go-apt-client"
 )
 
 func Package(name ...string) []*apt.Package {
