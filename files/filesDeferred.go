@@ -33,3 +33,9 @@ func ChownDeferred(file, ownerUser, ownerGroup string) func() (string, error) {
 		return "", Chown(file, ownerUser, ownerGroup)
 	}
 }
+
+func RemoveFileDeferred(file string) func() (string, error) {
+	return func() (string, error) {
+		return "", RemoveFile(file)
+	}
+}

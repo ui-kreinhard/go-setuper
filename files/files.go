@@ -63,3 +63,7 @@ func Chown(file, ownerUser, ownerGroup string) error {
 	}
 	return os.Chown(file, int(ownerUserID), int(ownerGroupID))
 }
+
+func RemoveFile(file string) error {
+	return os.Remove(file)
+}
