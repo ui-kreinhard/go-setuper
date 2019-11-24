@@ -1,7 +1,10 @@
 package userGroups
 
 import (
+	"bytes"
 	"github.com/ui-kreinhard/go-setuper/utils"
+	"os"
+	"os/exec"
 )
 
 func CreateUserWithoutPassword(username string) (string, error) {
@@ -26,4 +29,22 @@ func DeleteUser(username string) (string, error) {
 		return output, nil
 	}
 	return output, err
+}
+
+func ChangePassword(username, newPassword string) (string, error) {
+	cmd := exec.Command("chpasswd")
+
+	buffer := bytes.Buffer{}
+
+	buffer.Write([]byte(username))
+	buffer.Write([]byte(":"))
+	buffer.Write([]byte(newPassword))
+	buffer.Write([]byte("\n"))
+
+	cmd.Stdout = os.Stdout
+	cmd.Stdin = &buffer
+	cmd.Stderr = os.Stderr
+
+	err := cmd.Run()
+	return "", err
 }
