@@ -1,0 +1,8 @@
+#!/bin/bash
+for j in $(timedatectl list-timezones)
+do
+	echo -n $j | sed s/\\///g | sed s/-/_/g 
+	echo -n " Timezone "
+	echo -n = 
+	echo \"$j\"
+done
