@@ -7,7 +7,7 @@ import (
 	"os/exec"
 )
 
-func CreateUserWithoutPassword(username string) (string, error) {
+func CreateUserWithoutPasswordDirect(username string) (string, error) {
 	output, err := utils.Exec("adduser", "--disabled-password", "--gecos", "", username)
 	if err != nil && err.Error() == "exit status 1" {
 		return output, nil
@@ -15,7 +15,7 @@ func CreateUserWithoutPassword(username string) (string, error) {
 	return output, err
 }
 
-func CreateUser(username, passwordHash string) (string, error) {
+func CreateUserDirect(username, passwordHash string) (string, error) {
 	output, err := utils.Exec("useradd", "-m", "-p", passwordHash, "-s", "/bin/bash", username)
 	if err != nil && err.Error() == "exit status 9" {
 		return output, nil
@@ -23,7 +23,7 @@ func CreateUser(username, passwordHash string) (string, error) {
 	return output, err
 }
 
-func DeleteUser(username string) (string, error) {
+func DeleteUserDirect(username string) (string, error) {
 	output, err := utils.Exec("deluser", username)
 	if err != nil && err.Error() == "exit status 2" {
 		return output, nil
@@ -31,7 +31,7 @@ func DeleteUser(username string) (string, error) {
 	return output, err
 }
 
-func ChangePassword(username, newPassword string) (string, error) {
+func ChangePasswordDirect(username, newPassword string) (string, error) {
 	cmd := exec.Command("chpasswd")
 
 	buffer := bytes.Buffer{}

@@ -51,15 +51,15 @@ func main() {
 	)	
     executor.NewExecutor().
         Plan("Copy important file",
-			files.CopyDeferred("important", "/etc/important")).
+			files.Copy("important", "/etc/important")).
 		Plan("Add user myuser",
-			userGroups.CreateUserWithoutPasswordDeferred("myuser")).
+			userGroups.CreateUserWithoutPassword("myuser")).
 		Plan("Ensure group autologin exists",
-			userGroups.AddGroupDeferred("mygroup")).
+			userGroups.AddGroup("mygroup")).
 		Plan("Add user pi to group autologin",
-			userGroups.AddUserToGroupDeferred("myuser", "mygroup")).
+			userGroups.AddUserToGroup("myuser", "mygroup")).
 		Plan("Update Repo",
-			apt.CheckForUpdatesDeferred()).
+			apt.CheckForUpdates()).
         Run()
 }
 

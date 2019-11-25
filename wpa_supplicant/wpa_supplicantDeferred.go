@@ -1,13 +1,13 @@
 package wpa_supplicant
 
-func CopyWPAHeaderDeferred(headerFile string) func() (string, error) {
+func CopyWPAHeader(headerFile string) func() (string, error) {
 	return func() (string, error) {
-		return "", CopyWPAHeader(headerFile)
+		return "", CopyWPAHeaderDirect(headerFile)
 	}
 }
 
-func AddWPANetworkDeferred(wpaNetwork ...WPANetwork) func() (string, error) {
+func AddWPANetwork(wpaNetwork ...WPANetwork) func() (string, error) {
 	return func() (string, error) {
-		return AddWPANetwork(wpaNetwork...)
+		return AddWPANetworkDirect(wpaNetwork...)
 	}
 }

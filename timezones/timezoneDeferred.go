@@ -1,7 +1,7 @@
 package timezones
 
-func SetTimezoneDeferred(newTimezone Timezone) func() (string, error) {
+func SetTimezone(newTimezone Timezone) func() (string, error) {
 	return func() (string, error) {
-		return SetTimezone(newTimezone)
+		return SetTimezoneDirect(newTimezone)
 	}
 }

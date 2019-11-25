@@ -1,19 +1,19 @@
 package userGroups
 
-func CreateUserWithoutPasswordDeferred(username string) func() (string, error) {
+func CreateUserWithoutPassword(username string) func() (string, error) {
 	return func() (string, error) {
-		return CreateUserWithoutPassword(username)
+		return CreateUserWithoutPasswordDirect(username)
 	}
 }
 
-func CreateUserDeferred(username, passwordHash string) func() (string, error) {
+func CreateUser(username, passwordHash string) func() (string, error) {
 	return func() (string, error) {
-		return CreateUser(username, passwordHash)
+		return CreateUserDirect(username, passwordHash)
 	}
 }
 
-func ChangePasswordDeferred(username, newPassword string) func() (string, error) {
+func ChangePassword(username, newPassword string) func() (string, error) {
 	return func() (string, error) {
-		return ChangePassword(username, newPassword)
+		return ChangePasswordDirect(username, newPassword)
 	}
 }

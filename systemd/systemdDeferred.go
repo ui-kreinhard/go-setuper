@@ -1,37 +1,37 @@
 package systemd
 
-func EnableDeferred(serviceName string) func() (string, error) {
+func Enable(serviceName string) func() (string, error) {
 	return func() (string, error) {
-		return Enable(serviceName)
+		return EnableDirect(serviceName)
 	}
 }
 
-func DisableDeferred(serviceName string) func() (string, error) {
+func Disable(serviceName string) func() (string, error) {
 	return func() (string, error) {
-		return Disable(serviceName)
+		return DisableDirect(serviceName)
 	}
 }
 
-func StartDeferred(serviceName string) func() (string, error) {
+func Start(serviceName string) func() (string, error) {
 	return func() (string, error) {
-		return Start(serviceName)
+		return StartDirect(serviceName)
 	}
 }
 
-func StopDeferred(serviceName string) func() (string, error) {
+func Stop(serviceName string) func() (string, error) {
 	return func() (string, error) {
-		return Stop(serviceName)
+		return StopDirect(serviceName)
 	}
 }
 
-func RestartDeferred(serviceName string) func() (string, error) {
+func Restart(serviceName string) func() (string, error) {
 	return func() (string, error) {
-		return Restart(serviceName)
+		return RestartDirect(serviceName)
 	}
 }
 
-func DaemonReloadDeferred() func() (string, error) {
+func DaemonReload() func() (string, error) {
 	return func() (string, error) {
-		return DaemonReload()
+		return DaemonReloadDirect()
 	}
 }

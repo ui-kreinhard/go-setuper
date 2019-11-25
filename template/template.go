@@ -7,7 +7,7 @@ import (
 	"text/template"
 )
 
-func Render(filename string, targetFilename string, templateObject interface{}) error {
+func RenderDirect(filename string, targetFilename string, templateObject interface{}) error {
 	constructedDest, err := utils.ConstructDestination(filename, targetFilename)
 	if err != nil {
 		return err

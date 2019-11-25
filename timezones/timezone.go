@@ -5,12 +5,12 @@ import (
 	"github.com/ui-kreinhard/go-setuper/utils"
 )
 
-func SetTimezone(newTimezone Timezone) (string, error) {
-	err := files.RemoveFile("/etc/localtime")
+func SetTimezoneDirect(newTimezone Timezone) (string, error) {
+	err := files.RemoveFileDirect("/etc/localtime")
 	if err != nil {
 		return "", err
 	}
-	err = files.CreateSymlink("/usr/share/zoneinfo/"+string(newTimezone), "/etc/localtime")
+	err = files.CreateSymlinkDirect("/usr/share/zoneinfo/"+string(newTimezone), "/etc/localtime")
 	output, err := utils.Exec("dpkg-reconfigure", "-f", "noninteractive", "tzdata")
 	return output, err
 }

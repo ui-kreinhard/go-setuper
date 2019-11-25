@@ -1,25 +1,25 @@
 package userGroups
 
-func AddGroupDeferred(groupName string) func() (string, error) {
+func AddGroup(groupName string) func() (string, error) {
 	return func() (string, error) {
-		return AddGroup(groupName)
+		return AddGroupDirect(groupName)
 	}
 }
 
-func DeleteGroupDeferred(groupName string) func() (string, error) {
+func DeleteGroup(groupName string) func() (string, error) {
 	return func() (string, error) {
-		return DeleteGroup(groupName)
+		return DeleteGroupDirect(groupName)
 	}
 }
 
-func AddUserToGroupDeferred(user, groupName string) func() (string, error) {
+func AddUserToGroup(user, groupName string) func() (string, error) {
 	return func() (string, error) {
-		return AddUserToGroup(user, groupName)
+		return AddUserToGroupDirect(user, groupName)
 	}
 }
 
-func RemoveUserFromGroupDeferred(user, groupName string) func() (string, error) {
+func RemoveUserFromGroup(user, groupName string) func() (string, error) {
 	return func() (string, error) {
-		return RemoveUserFromGroup(user, groupName)
+		return RemoveUserFromGroupDirect(user, groupName)
 	}
 }

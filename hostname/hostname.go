@@ -27,7 +27,7 @@ func ensureLineInHosts(hostname string) error {
 	return err
 }
 
-func SetHostname(hostname string) (string, error) {
+func SetHostnameDirect(hostname string) (string, error) {
 	err := writeToEtcHostname(hostname)
 	if err != nil {
 		return "", err

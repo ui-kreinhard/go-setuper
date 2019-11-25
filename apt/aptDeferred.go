@@ -1,31 +1,31 @@
 package apt
 
-func CheckForUpdatesDeferred() func() (string, error) {
+func CheckForUpdates() func() (string, error) {
 	return func() (string, error) {
-		return CheckForUpdates()
+		return CheckForUpdatesDirect()
 	}
 }
 
-func InstallDeferred(packageName ...string) func() (string, error) {
+func Install(packageName ...string) func() (string, error) {
 	return func() (string, error) {
-		return Install(packageName...)
+		return InstallDirect(packageName...)
 	}
 }
 
-func RemoveDeferred(packageName ...string) func() (string, error) {
+func Remove(packageName ...string) func() (string, error) {
 	return func() (string, error) {
-		return Remove(packageName...)
+		return RemoveDirect(packageName...)
 	}
 }
 
-func AddAptRepositoryDeferred(url string) func() (string, error) {
+func AddAptRepository(url string) func() (string, error) {
 	return func() (string, error) {
-		return AddAptRepository(url)
+		return AddAptRepositoryDirect(url)
 	}
 }
 
-func AddAptKeyDeferred(urlOrFile string) func() (string, error) {
+func AddAptKey(urlOrFile string) func() (string, error) {
 	return func() (string, error) {
-		return AddAptKey(urlOrFile)
+		return AddAptKeyDirect(urlOrFile)
 	}
 }

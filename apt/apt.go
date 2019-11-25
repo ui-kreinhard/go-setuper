@@ -21,27 +21,27 @@ func Package(name ...string) []*apt.Package {
 	return ret
 }
 
-func CheckForUpdates() (string, error) {
+func CheckForUpdatesDirect() (string, error) {
 	output, err := utils.ConvertOutput(apt.CheckForUpdates())
 	return output, err
 }
 
-func Install(packageName ...string) (string, error) {
+func InstallDirect(packageName ...string) (string, error) {
 	output, err := utils.ConvertOutput(apt.Install(Package(packageName...)...))
 	return output, err
 }
 
-func Remove(packageName ...string) (string, error) {
+func RemoveDirect(packageName ...string) (string, error) {
 	output, err := utils.ConvertOutput(apt.Remove(Package(packageName...)...))
 	return output, err
 }
 
-func AddAptRepository(url string) (string, error) {
+func AddAptRepositoryDirect(url string) (string, error) {
 	output, err := utils.Exec("add-apt-repository", url)
 	return output, err
 }
 
-func AddAptKey(urlOrFile string) (string, error) {
+func AddAptKeyDirect(urlOrFile string) (string, error) {
 	output, err := utils.Exec("wget", urlOrFile, "-O", "/tmp/aptKey")
 	if err != nil {
 		return output, err

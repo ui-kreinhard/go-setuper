@@ -11,11 +11,11 @@ type WPANetwork struct {
 	Passphrase string
 }
 
-func CopyWPAHeader(headerFile string) error {
-	return files.Copy(headerFile, "/etc/wpa_supplicant/wpa_supplicant.conf")
+func CopyWPAHeaderDirect(headerFile string) error {
+	return files.CopyDirect(headerFile, "/etc/wpa_supplicant/wpa_supplicant.conf")
 }
 
-func AddWPANetwork(wpaNetworks ...WPANetwork) (string, error) {
+func AddWPANetworkDirect(wpaNetworks ...WPANetwork) (string, error) {
 	for _, wpaNetwork := range wpaNetworks {
 		output, err := utils.Exec("wpa_passphrase", wpaNetwork.SSID, wpaNetwork.Passphrase)
 		if err != nil {

@@ -4,38 +4,38 @@ import (
 	"os"
 )
 
-func CopyDeferred(from string, dest string) func() (string, error) {
+func Copy(from string, dest string) func() (string, error) {
 	return func() (string, error) {
-		return "", Copy(from, dest)
+		return "", CopyDirect(from, dest)
 	}
 }
 
-func CreateEmptyFileDeferred(filename string) func() (string, error) {
+func CreateEmptyFile(filename string) func() (string, error) {
 	return func() (string, error) {
-		return "", CreateEmptyFile(filename)
+		return "", CreateEmptyFileDirect(filename)
 	}
 }
 
-func CreateSymlinkDeferred(src, dest string) func() (string, error) {
+func CreateSymlink(src, dest string) func() (string, error) {
 	return func() (string, error) {
-		return "", CreateSymlink(src, dest)
+		return "", CreateSymlinkDirect(src, dest)
 	}
 }
 
-func ChmodDeferred(file string, fileMode os.FileMode) func() (string, error) {
+func Chmod(file string, fileMode os.FileMode) func() (string, error) {
 	return func() (string, error) {
-		return "", Chmod(file, fileMode)
+		return "", ChmodDirect(file, fileMode)
 	}
 }
 
-func ChownDeferred(file, ownerUser, ownerGroup string) func() (string, error) {
+func Chown(file, ownerUser, ownerGroup string) func() (string, error) {
 	return func() (string, error) {
-		return "", Chown(file, ownerUser, ownerGroup)
+		return "", ChownDirect(file, ownerUser, ownerGroup)
 	}
 }
 
-func RemoveFileDeferred(file string) func() (string, error) {
+func RemoveFile(file string) func() (string, error) {
 	return func() (string, error) {
-		return "", RemoveFile(file)
+		return "", RemoveFileDirect(file)
 	}
 }

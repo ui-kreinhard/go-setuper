@@ -9,7 +9,7 @@ import (
 	"strconv"
 )
 
-func Copy(from string, dest string) error {
+func CopyDirect(from string, dest string) error {
 	setuper := setuper.NewSetuper()
 	sourceContent, err := setuper.FilesBox.FindString(from)
 	if err != nil {
@@ -25,7 +25,7 @@ func Copy(from string, dest string) error {
 	return nil
 }
 
-func CreateEmptyFile(filename string) error {
+func CreateEmptyFileDirect(filename string) error {
 	emptyFile, err := os.Create(filename)
 	if err != nil {
 		return err
@@ -34,15 +34,15 @@ func CreateEmptyFile(filename string) error {
 	return nil
 }
 
-func CreateSymlink(src, dest string) error {
+func CreateSymlinkDirect(src, dest string) error {
 	return os.Symlink(src, dest)
 }
 
-func Chmod(file string, mode os.FileMode) error {
+func ChmodDirect(file string, mode os.FileMode) error {
 	return os.Chmod(file, mode)
 }
 
-func Chown(file, ownerUser, ownerGroup string) error {
+func ChownDirect(file, ownerUser, ownerGroup string) error {
 	ownerUserObj, err := user.Lookup(ownerUser)
 	if err != nil {
 		return err
@@ -64,6 +64,6 @@ func Chown(file, ownerUser, ownerGroup string) error {
 	return os.Chown(file, int(ownerUserID), int(ownerGroupID))
 }
 
-func RemoveFile(file string) error {
+func RemoveFileDirect(file string) error {
 	return os.Remove(file)
 }

@@ -4,33 +4,33 @@ import (
 	"github.com/ui-kreinhard/go-setuper/utils"
 )
 
-func Enable(serviceName string) (string, error) {
+func EnableDirect(serviceName string) (string, error) {
 	output, err := utils.Exec("systemctl", "enable", serviceName)
 	return output, err
 }
 
-func Disable(serviceName string) (string, error) {
+func DisableDirect(serviceName string) (string, error) {
 	output, err := utils.Exec("systemctl", "disable", serviceName)
 	return output, err
 
 }
 
-func DaemonReload() (string, error) {
+func DaemonReloadDirect() (string, error) {
 	output, err := utils.Exec("systemctl", "daemon-reload")
 	return output, err
 }
 
-func Stop(serviceName string) (string, error) {
+func StopDirect(serviceName string) (string, error) {
 	output, err := utils.Exec("systemctl", "stop", serviceName)
 	return output, err
 }
 
-func Start(serviceName string) (string, error) {
+func StartDirect(serviceName string) (string, error) {
 	output, err := utils.Exec("systemctl", "start", serviceName)
 	return output, err
 }
 
-func Restart(serviceName string) (string, error) {
+func RestartDirect(serviceName string) (string, error) {
 	output, err := utils.Exec("systemctl", "restart", serviceName)
 	return output, err
 }
