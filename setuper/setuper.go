@@ -9,13 +9,17 @@ import (
 type ISetuper interface{}
 
 type Setuper struct {
-	TemplatesBox *packr.Box
 	FilesBox     *packr.Box
+	TemplatesBox *packr.Box
 	ScriptBox    *packr.Box
 }
 
 var setuper *Setuper
 var pathPrefix *string
+
+var filesBox *packr.Box
+var templatesBox *packr.Box
+var scriptsBox *packr.Box
 
 func printContent(box *packr.Box) {
 	for _, file := range box.List() {
@@ -27,16 +31,11 @@ func NewSetuper() *Setuper {
 	if setuper == nil {
 		fmt.Println("Instanciating setuper")
 		setuper = &Setuper{
-			packr.New("templates", "../staticAssets/templates/"),
-			packr.New("files", "../staticAssets/file"),
-			packr.New("scripts", "../staticAssets/scripts"),
+			filesBox,
+			templatesBox,
+			scriptsBox,
 		}
 
-		if pathPrefix != nil {
-			setuper.TemplatesBox.ResolutionDir = *pathPrefix + "/templates/"
-			setuper.FilesBox.ResolutionDir = *pathPrefix + "/file/"
-			setuper.ScriptBox.ResolutionDir = *pathPrefix + "/scripts/"
-		}
 		printContent(setuper.FilesBox)
 		printContent(setuper.TemplatesBox)
 		printContent(setuper.ScriptBox)
@@ -46,7 +45,9 @@ func NewSetuper() *Setuper {
 	return setuper
 }
 
-func ConfigurePrefix(prefix string) {
-	pathPrefix = &prefix
+func ConfigureBox(files, templates, scripts *packr.Box) {
+	filesBox = files
+	templatesBox = templates
+	scriptsBox = scripts
 	NewSetuper()
 }

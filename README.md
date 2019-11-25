@@ -37,12 +37,18 @@ import (
 	"github.com/ui-kreinhard/go-setuper/userGroups"
 	"github.com/ui-kreinhard/go-setuper/files"
 	"github.com/ui-kreinhard/go-setuper/setuper"
+	"github.com/gobuffalo/packr/v2"
 )
 
 func main() {
-    // needed so static files can be found
-	setuper.ConfigurePrefix("./staticAssets/")
 
+	// needed for finding files in static folder
+	// cannot be currently included in library itself
+	setuper.ConfigureBox(
+		packr.New("files", "./staticAssets/files"),
+		packr.New("templates", "./staticAssets/templates"),
+		packr.New("scripts", "./staticAssets/scripts"),
+	)	
     executor.NewExecutor().
         Plan("Copy important file",
 			files.CopyDeferred("important", "/etc/important")).
