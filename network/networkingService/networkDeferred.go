@@ -2,27 +2,24 @@ package networkingService
 
 import (
 	"github.com/ui-kreinhard/go-setuper/network"
+	"github.com/ui-kreinhard/go-setuper/utils"
 )
 
 type ConfigCmd struct {
-	queue []func() (string, error)
+	queue utils.QueuedFunctions
 }
 
 func Clear() network.IConfigCmd {
 
 	ret := &ConfigCmd{}
-	ret.append(func() (string, error) {
+	ret.queue.Append(func() (string, error) {
 		return ClearDirect()
 	})
 	return ret
 }
 
-func (c *ConfigCmd) append(action func() (string, error)) {
-	c.queue = append(c.queue, action)
-}
-
 func (c *ConfigCmd) ConfigureStaticDevices(e ...network.EthernetConfiguration) network.IConfigCmd {
-	c.append(func() (string, error) {
+	c.queue.Append(func() (string, error) {
 		return ConfigureStaticDevicesDirect(e...)
 	})
 
@@ -47,11 +44,9 @@ func (c *ConfigCmd) ConfigureDHCPDevice(deviceNames ...string) network.IConfigCm
 
 func (c *ConfigCmd) Apply() func() (string, error) {
 	return func() (string, error) {
-		for _, action := range c.queue {
-			output, err := action()
-			if err != nil {
-				return output, err
-			}
+		output, err := c.queue.Apply()
+		if err != nil {
+			return output, err
 		}
 		return ApplyDirect()
 	}

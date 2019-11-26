@@ -2,6 +2,7 @@ package wpa_supplicant
 
 import (
 	"github.com/ui-kreinhard/go-setuper/systemd"
+	"github.com/ui-kreinhard/go-setuper/utils"
 )
 
 type IConfigCommand interface {
@@ -9,15 +10,11 @@ type IConfigCommand interface {
 	Apply() func() (string, error)
 }
 type ConfigCmd struct {
-	queue []func() (string, error)
-}
-
-func (c *ConfigCmd) append(action func() (string, error)) {
-	c.queue = append(c.queue, action)
+	queue utils.QueuedFunctions
 }
 
 func (c *ConfigCmd) AddWPANetwork(wpaNetworks ...WPANetwork) IConfigCommand {
-	c.append(func() (string, error) {
+	c.queue.Append(func() (string, error) {
 		return AddWPANetworkDirect(wpaNetworks...)
 	})
 
@@ -26,11 +23,9 @@ func (c *ConfigCmd) AddWPANetwork(wpaNetworks ...WPANetwork) IConfigCommand {
 
 func (c *ConfigCmd) Apply() func() (string, error) {
 	return func() (string, error) {
-		for _, action := range c.queue {
-			output, err := action()
-			if err != nil {
-				return output, err
-			}
+		output, err := c.queue.Apply()
+		if err != nil {
+			return output, err
 		}
 		return systemd.RestartDirect("wpa_supplicant")
 	}
@@ -38,7 +33,7 @@ func (c *ConfigCmd) Apply() func() (string, error) {
 
 func CreateWpaSupplicant(config WPASupplicantConfig) IConfigCommand {
 	configCmd := &ConfigCmd{}
-	configCmd.append(func() (string, error) {
+	configCmd.queue.Append(func() (string, error) {
 		return "", ConfigureWPAHeaderDirect(config)
 	})
 	return configCmd
