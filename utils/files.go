@@ -25,3 +25,15 @@ func ConstructDestination(from, dest string) (string, error) {
 	}
 	return dest, err
 }
+
+func AppendToFile(toFile, data string) error {
+	f, err := os.OpenFile(toFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0655)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	if _, err := f.WriteString(data + "\n"); err != nil {
+		return err
+	}
+	return nil
+}

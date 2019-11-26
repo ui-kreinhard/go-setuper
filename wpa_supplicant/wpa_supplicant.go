@@ -1,9 +1,8 @@
 package wpa_supplicant
 
 import (
-	"github.com/ui-kreinhard/go-setuper/files"
 	"github.com/ui-kreinhard/go-setuper/utils"
-	"os"
+	"io/ioutil"
 )
 
 type WPANetwork struct {
@@ -11,8 +10,26 @@ type WPANetwork struct {
 	Passphrase string
 }
 
-func CopyWPAHeaderDirect(headerFile string) error {
-	return files.CopyDirect(headerFile, "/etc/wpa_supplicant/wpa_supplicant.conf")
+type WPASupplicantConfig struct {
+	Country       string
+	UpdateConfig  bool
+	CtrlInterface string
+}
+
+func renderUpdateConfig(updateConfig bool) string {
+	if updateConfig {
+		return "1"
+	}
+	return "0"
+}
+
+func ConfigureWPAHeaderDirect(config WPASupplicantConfig) error {
+	content := "ctrl_interface=" + config.CtrlInterface +
+		"\nupdate_config=" + renderUpdateConfig(config.UpdateConfig) +
+		"\ncountry=" + config.Country
+
+	ioutil.WriteFile("/etc/wpa_supplicant/wpa_supplicant.conf", []byte(content), 0655)
+	return nil
 }
 
 func AddWPANetworkDirect(wpaNetworks ...WPANetwork) (string, error) {
@@ -21,14 +38,8 @@ func AddWPANetworkDirect(wpaNetworks ...WPANetwork) (string, error) {
 		if err != nil {
 			return output, err
 		}
-		f, err := os.OpenFile("/etc/wpa_supplicant/wpa_supplicant.conf", os.O_APPEND|os.O_WRONLY, 0644)
+		err = utils.AppendToFile("/etc/wpa_supplicant/wpa_supplicant.conf", output)
 		if err != nil {
-			return "", err
-		}
-		if _, err := f.Write([]byte("\n" + output)); err != nil {
-			return "", err
-		}
-		if err := f.Close(); err != nil {
 			return "", err
 		}
 	}
