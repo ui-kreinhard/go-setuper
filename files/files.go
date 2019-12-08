@@ -1,16 +1,42 @@
 package files
 
 import (
+	"github.com/gobuffalo/packr/v2/file"
 	"github.com/ui-kreinhard/go-setuper/setuper"
 	"github.com/ui-kreinhard/go-setuper/utils"
 	"io/ioutil"
 	"os"
 	"os/user"
+	"log"
+	"path/filepath"
 	"strconv"
 )
 
-func CopyDirect(from string, dest string) error {
+func CopyDirect(from,dest string) error {
 	setuper := setuper.NewSetuper()
+	log.Println("checkin", from)
+	if setuper.FilesBox.HasDir(from) {
+		fileListToCopy := []string{}
+		setuper.FilesBox.WalkPrefix(from, func(path string, f file.File) error {
+			log.Println(path)
+			fileListToCopy = append(fileListToCopy, path)
+			return nil
+		})
+		for _, fileToCopy := range fileListToCopy {
+			destinationWithPath := dest + filepath.Dir(fileToCopy)
+			if err := CopyDirectFile(fileToCopy, destinationWithPath); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+	return CopyDirectFile(from, dest)
+}
+
+func CopyDirectFile(from string, dest string) error {
+
+	setuper := setuper.NewSetuper()
+	os.MkdirAll(dest, 0655)
 	sourceContent, err := setuper.FilesBox.FindString(from)
 	if err != nil {
 		return err

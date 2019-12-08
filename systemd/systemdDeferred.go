@@ -35,3 +35,13 @@ func DaemonReload() func() (string, error) {
 		return DaemonReloadDirect()
 	}
 }
+
+func StartAndEnable(serviceName string) func() (string, error) {
+	return func() (string, error) {
+		output, err := RestartDirect(serviceName)
+		if err != nil {
+			return output, err
+		}
+		return EnableDirect(serviceName)
+	}
+}
