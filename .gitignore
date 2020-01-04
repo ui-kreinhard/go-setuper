@@ -4,3 +4,4 @@ packrd/
 main.go
 staticAssets/*
 *-packr.go
+*.iml
