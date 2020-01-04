@@ -1,7 +1,6 @@
 package setuper
 
 import (
-	"fmt"
 	"github.com/gobuffalo/packr/v2"
 	"log"
 )
@@ -29,19 +28,21 @@ func printContent(box *packr.Box) {
 
 func NewSetuper() *Setuper {
 	if setuper == nil {
-		fmt.Println("Instanciating setuper")
 		setuper = &Setuper{
 			filesBox,
 			templatesBox,
 			scriptsBox,
 		}
-
+		log.Println("Known Files")
 		printContent(setuper.FilesBox)
+		log.Println()
+		log.Println("Known Templates")
 		printContent(setuper.TemplatesBox)
+		log.Println()
+		log.Println("Known scripts")
 		printContent(setuper.ScriptBox)
-	} else {
-		fmt.Println("Returning cached setuper")
-	}
+		log.Println()
+	} 
 	return setuper
 }
 
